@@ -1,0 +1,20 @@
+/** Keep in sync with the @theme tokens in src/styles.css */
+export const COLORS = {
+  ink: "#1a1022",
+  paper: "#f6e4cc",
+  paperWarm: "#f3d2a4",
+  sage: "#e36b22",
+  sageDeep: "#24182f",
+  sageLeaf: "#3a2450",
+  hedgeMid: "#322044",
+  hedgeTop: "#c45a22",
+  honey: "#ff8c2a",
+  sky: "#1c1433",
+  lawn: "#120c18",
+  floor: "#d4c0a4",
+  cloud: "#2c2344",
+  sun: "#f4e7c8",
+  stem: "#3e6b45",
+  wood: "#3a2418",
+  bone: "#efe2cc",
+} as const;

@@ -1,0 +1,201 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #1a1022;
+  --color-paper: #f6e4cc;
+  --color-sage: #e36b22;
+  --color-honey: #ff8c2a;
+  --color-sky: #1c1433;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+    background: var(--color-sky);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    touch-action: none;
+  }
+  button:focus-visible,
+  input:focus-visible {
+    outline: 2px solid var(--color-honey);
+    outline-offset: 3px;
+  }
+}
+
+.game-shell {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+  background: var(--color-sky);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.game-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.game-shell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 42%, rgba(12, 6, 18, 0.55) 100%);
+}
+
+.hud-safe {
+  padding-top: max(0.75rem, env(safe-area-inset-top));
+  padding-right: max(0.75rem, env(safe-area-inset-right));
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+  padding-left: max(0.75rem, env(safe-area-inset-left));
+}
+
+.minimap {
+  width: 8.5rem;
+  height: 8.5rem;
+  flex: none;
+  border-radius: 1rem;
+  border: 2px solid color-mix(in srgb, var(--color-paper) 78%, transparent);
+  background: var(--color-ink);
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--color-ink) 28%, transparent);
+}
+
+.stick {
+  width: 7rem;
+  height: 7rem;
+  margin: 0.25rem;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 2px solid color-mix(in srgb, var(--color-paper) 70%, transparent);
+  background: color-mix(in srgb, var(--color-ink) 38%, transparent);
+  touch-action: none;
+}
+
+.knob {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  background: var(--color-paper);
+  box-shadow: 0 3px 0 color-mix(in srgb, var(--color-ink) 30%, transparent);
+}
+
+.touch-only,
+.touch-copy {
+  display: none;
+}
+
+.keys-only {
+  display: block;
+}
+
+.look-hint {
+  margin: 0 1.25rem 1.5rem 0;
+  font-size: 0.875rem;
+  font-weight: 800;
+  color: var(--color-paper);
+  text-shadow: 0 1px 2px var(--color-ink);
+  pointer-events: none;
+}
+
+@media (min-width: 640px) {
+  .minimap {
+    width: 11rem;
+    height: 11rem;
+  }
+}
+
+@media (pointer: coarse), (max-width: 820px) {
+  .touch-only {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    pointer-events: none;
+  }
+  .touch-only .stick {
+    pointer-events: auto;
+  }
+  .touch-copy {
+    display: block;
+  }
+  .keys-only {
+    display: none;
+  }
+}
+
+[data-ui] {
+  touch-action: auto;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.panel-rise {
+  animation: rise 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.gold-loop {
+  width: 7.5rem;
+  height: auto;
+  filter: sepia(1) saturate(5) hue-rotate(2deg) brightness(1.05);
+  animation: pulse-gold 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse-gold {
+  50% {
+    transform: scale(1.07);
+    filter: sepia(1) saturate(6) hue-rotate(2deg) brightness(1.35);
+  }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pop {
+  animation: pop 280ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel-rise,
+  .pop,
+  .gold-loop {
+    animation: none;
+  }
+}
